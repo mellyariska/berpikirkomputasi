@@ -16,13 +16,16 @@ st.markdown("Visualisasi hasil pengukuran kemampuan berpikir komputasi responden
 st.markdown("---")
 
 # ===============================
-# LOAD DATA (LANGSUNG)
+# LOAD DATA
 # ===============================
 @st.cache_data
 def load_data():
-    return pd.read_excel("Kuesioner Berpikir Komputasi – DSS Iklim.xlsx")
+    df = pd.read_excel("Kuesioner Berpikir Komputasi – DSS Iklim.xlsx")
+    df.columns = df.columns.str.strip()  # hapus spasi aneh
+    return df
 
 df_raw = load_data()
+
 
 # ===============================
 # PILIH KOLOM DIMENSI CT
@@ -190,3 +193,4 @@ st.pyplot(fig)
 st.markdown(
     "**Kesimpulan:** Hasil menunjukkan kemampuan berpikir komputasi responden berada pada tingkat tinggi dan relatif merata di seluruh dimensi."
 )
+
