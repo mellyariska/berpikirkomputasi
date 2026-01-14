@@ -15,16 +15,16 @@ st.title("🧠 Dashboard Computational Thinking Berbasis Data Iklim & DSS")
 st.markdown("Visualisasi hasil pengukuran kemampuan berpikir komputasi responden")
 st.markdown("---")
 
-# ===============================
-# LOAD DATA
-# ===============================
 @st.cache_data
 def load_data():
     df = pd.read_excel("Kuesioner Berpikir Komputasi – DSS Iklim.xlsx")
-    df.columns = df.columns.str.strip()  # hapus spasi aneh
+    df.columns = df.columns.astype(str).str.strip()
     return df
 
 df_raw = load_data()
+
+st.subheader("📋 Kolom yang terbaca dari Excel")
+st.write(df_raw.columns.tolist())
 
 
 # ===============================
@@ -193,4 +193,5 @@ st.pyplot(fig)
 st.markdown(
     "**Kesimpulan:** Hasil menunjukkan kemampuan berpikir komputasi responden berada pada tingkat tinggi dan relatif merata di seluruh dimensi."
 )
+
 
