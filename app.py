@@ -15,6 +15,9 @@ st.title("🧠 Dashboard Computational Thinking Berbasis Data Iklim & DSS")
 st.markdown("Visualisasi hasil pengukuran kemampuan berpikir komputasi responden")
 st.markdown("---")
 
+# ===============================
+# LOAD DATA
+# ===============================
 @st.cache_data
 def load_data():
     df = pd.read_excel("Kuesioner Berpikir Komputasi – DSS Iklim.xlsx")
@@ -26,19 +29,44 @@ df_raw = load_data()
 st.subheader("📋 Kolom yang terbaca dari Excel")
 st.write(df_raw.columns.tolist())
 
+# ===============================
+# MAPPING ITEM → DIMENSI CT
+# ===============================
+dimensi_mapping = {
+    "Decomposition": [
+        "Saya mampu memecah permasalahan iklim menjadi bagian-bagian kecil yang lebih mudah dianalisis.",
+        "Saya dapat mengidentifikasi elemen-elemen penting dalam permasalahan iklim.",
+        "Saya dapat mengelompokkan data iklim berdasarkan kategori atau ciri khas tertentu."
+    ],
+    "Pattern Recognition": [
+        "Saya dapat mengenali pola perubahan iklim dari data historis.",
+        "Saya dapat menemukan hubungan antara curah hujan, suhu, dan kelembaban dari data yang tersedia.",
+        "Saya dapat memprediksi kondisi cuaca berdasarkan pola data sebelumnya."
+    ],
+    "Abstraction": [
+        "Saya mampu menyederhanakan data iklim yang kompleks menjadi bentuk yang lebih mudah dipahami.",
+        "Saya dapat membuat grafik atau model visual untuk menjelaskan kondisi iklim.",
+        "Saya mampu memfokuskan perhatian pada data penting dan mengabaikan data yang tidak relevan."
+    ],
+    "Algorithmic Thinking": [
+        "Saya dapat membuat langkah-langkah sistematis untuk menyelesaikan persoalan perubahan iklim.",
+        "Saya mampu menyusun algoritma sederhana untuk membantu memecahkan masalah iklim.",
+        "Saya dapat mengevaluasi solusi yang saya buat berdasarkan data iklim yang tersedia."
+    ],
+    "Dampak DSS": [
+        "Saya merasa terbantu dengan penggunaan sistem pendukung keputusan berbasis data.",
+        "Saya merasa DSS mendorong saya berpikir lebih sistematis dalam menganalisis masalah iklim.",
+        "Saya merasa DSS membantu saya belajar memahami data iklim secara logis dan terstruktur."
+    ]
+}
 
 # ===============================
-# PILIH KOLOM DIMENSI CT
+# HITUNG SKOR DIMENSI
 # ===============================
-dimensi_ct = [
-    "Decomposition",
-    "Pattern Recognition",
-    "Abstraction",
-    "Algorithmic Thinking",
-    "Dampak DSS"
-]
+df = pd.DataFrame()
 
-df = df_raw[dimensi_ct]
+for dimensi, items in dimensi_mapping.items():
+    df[dimensi] = df_raw[items].mean(axis=1)
 
 # ===============================
 # METRIK UTAMA
@@ -168,7 +196,7 @@ st.pyplot(fig)
 st.markdown("---")
 
 # ===============================
-# SECTION 6 — RINGKASAN DASHBOARD
+# SECTION 6 — RINGKASAN
 # ===============================
 st.subheader("🟪 Ringkasan Visual Hasil")
 
@@ -191,7 +219,5 @@ axs[2].tick_params(axis='x', rotation=30)
 st.pyplot(fig)
 
 st.markdown(
-    "**Kesimpulan:** Hasil menunjukkan kemampuan berpikir komputasi responden berada pada tingkat tinggi dan relatif merata di seluruh dimensi."
+    "**Kesimpulan:** Kemampuan berpikir komputasi responden berada pada tingkat tinggi dan relatif merata di seluruh dimensi."
 )
-
-
